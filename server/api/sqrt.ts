@@ -1,4 +1,4 @@
-export default defineEventHandler((event) => {
+export default eventHandler(async (event) => {
     const number = Number(getQuery(event).number)
 
     // validate the input
@@ -26,6 +26,8 @@ export default defineEventHandler((event) => {
             executionTime: executionTime
         }
     }
+    
+
 
     return {
         data: sqrt(number)
