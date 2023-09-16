@@ -5,7 +5,7 @@ export default eventHandler(async (event) => {
     if (!Number.isInteger(number)) {
         throw createError({
             statusCode: 400,
-            statusMessage: 'The number must be greater than 0'
+            statusMessage: 'The number is not an integer'
         })
     }
 
