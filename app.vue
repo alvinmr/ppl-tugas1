@@ -34,6 +34,9 @@ const sqrt = () => {
       execution_time: time.value,
     }).then(() => {
       fetchHistory()
+    }).catch((err) => {
+      // show error dialog
+      alert(err.message)
     })
   })
 }
