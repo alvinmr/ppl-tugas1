@@ -7,6 +7,7 @@ const history_data = ref([])
 const currentPage = ref(1)
 const itemsPerPage = ref(10)
 const totalItems = ref(0)
+const toast = useToast()
 
 const fetchHistory = () => {
   client
@@ -36,7 +37,10 @@ const sqrt = () => {
       fetchHistory()
     }).catch((err) => {
       // show error dialog
-      alert(err.message)
+      toast({
+        title: 'Error',
+        description: err.message
+      })
     })
   })
 }
