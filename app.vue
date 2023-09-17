@@ -17,6 +17,7 @@ const fetchHistory = () => {
       (currentPage.value - 1) * itemsPerPage.value,
       currentPage.value * itemsPerPage.value - 1
     )
+    .order('id', { ascending: false })
     .then((res) => {
       history_data.value = res.data
       totalItems.value = res.count
@@ -29,19 +30,7 @@ const sqrt = () => {
   $fetch(`/api/sqrt?number=${number.value}`).then((res) => {
     answer.value = res.data.sqrt
     time.value = res.data.executionTime
-    client.from('sqrt_number').insert({
-      number: number.value,
-      sqrt: answer.value,
-      execution_time: time.value,
-    }).then(() => {
-      fetchHistory()
-    }).catch((err) => {
-      // show error dialog
-      toast({
-        title: 'Error',
-        description: err.message
-      })
-    })
+    fetchHistory()
   })
 }
 
