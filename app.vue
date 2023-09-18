@@ -23,15 +23,22 @@ const fetchHistory = () => {
       totalItems.value = res.count
     })
 }
-
 fetchHistory()
 
 const sqrt = () => {
-  $fetch(`/api/sqrt?number=${number.value}`).then((res) => {
-    answer.value = res.data.sqrt
-    time.value = res.data.executionTime
-    fetchHistory()
-  })
+  $fetch(`https://akar-kuadrat-api.vercel.app/api/sqrt?number=${number.value}`)
+    .then((res) => {
+      answer.value = res.data.sqrt
+      time.value = res.data.time
+      fetchHistory()
+    })
+    .catch((err) => {
+      toast.add({
+        title: 'Error',
+        description: "Invalid number, please try again!",
+        color: 'red',
+      })
+    })
 }
 
 watch([currentPage, itemsPerPage], fetchHistory)
@@ -47,16 +54,9 @@ const totalPages = computed(() =>
       <UInput
         type="number"
         v-model="number"
-        placeholder="input number"
+        placeholder="Input number, enter to calculate"
         :ui="{ icon: { trailing: { pointer: '' } } }"
       >
-        <template #trailing>
-          <UButton
-            icon="i-heroicons-paper-airplane"
-            :padded="false"
-            @click="alert('clicked')"
-          />
-        </template>
       </UInput>
     </form>
     <UCard class="mt-5">
@@ -74,9 +74,9 @@ const totalPages = computed(() =>
         <div class="w-full">
           <UTable
             :ui="{
-              'th': {
-                'base': 'text-center',
-              }
+              th: {
+                base: 'text-center',
+              },
             }"
             :rows="history_data"
             :columns="[
@@ -95,5 +95,6 @@ const totalPages = computed(() =>
         </div>
       </div>
     </UCard>
+    <UNotifications />
   </div>
 </template>
