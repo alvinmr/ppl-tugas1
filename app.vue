@@ -52,7 +52,7 @@ const totalPages = computed(() =>
     <h1 class="text-3xl font-bold mb-2">Square Root Calculator</h1>
     <form @submit.prevent="sqrt">
       <UInput
-        type="number"
+        type="text"
         v-model="number"
         placeholder="Input number, enter to calculate"
         :ui="{ icon: { trailing: { pointer: '' } } }"
