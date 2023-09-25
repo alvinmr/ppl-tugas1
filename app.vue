@@ -8,6 +8,7 @@ const currentPage = ref(1)
 const itemsPerPage = ref(10)
 const totalItems = ref(0)
 const toast = useToast()
+const isLoading = ref(false)
 
 const fetchHistory = () => {
   client
@@ -26,18 +27,42 @@ const fetchHistory = () => {
 fetchHistory()
 
 const sqrt = () => {
+  isLoading.value = true
   $fetch(`https://akar-kuadrat-api.vercel.app/api/sqrt?number=${number.value}`)
     .then((res) => {
       answer.value = res.data.sqrt
       time.value = res.data.time
       fetchHistory()
+      isLoading.value = false
     })
     .catch((err) => {
       toast.add({
         title: 'Error',
-        description: "Invalid number, please try again!",
+        description: 'Invalid number, please try again!',
         color: 'red',
       })
+      isLoading.value = false
+    })
+}
+
+const sqrt_sql = () => {
+  isLoading.value = true
+  $fetch(
+    `https://akar-kuadrat-api.vercel.app/api/sql/sqrt?number=${number.value}`
+  )
+    .then((res) => {
+      answer.value = res.data.sqrt
+      time.value = res.data.execution_time
+      fetchHistory()
+      isLoading.value = false
+    })
+    .catch((err) => {
+      toast.add({
+        title: 'Error',
+        description: 'Invalid number, please try again!',
+        color: 'red',
+      })
+      isLoading.value = false
     })
 }
 
@@ -50,15 +75,36 @@ const totalPages = computed(() =>
 <template>
   <div class="mx-10 p-4 text-center">
     <h1 class="text-3xl font-bold mb-2">Square Root Calculator</h1>
-    <form @submit.prevent="sqrt">
-      <UInput
-        type="text"
-        v-model="number"
-        placeholder="Input number, enter to calculate"
-        :ui="{ icon: { trailing: { pointer: '' } } }"
+    <UInput
+      type="text"
+      v-model="number"
+      placeholder="Input number here"
+      :ui="{ icon: { trailing: { pointer: '' } } }"
+      :loading="isLoading"
+    >
+    </UInput>
+    <!-- button to send -->
+    <div class="mt-5">
+      <UButton
+        icon="i-heroicons-wifi"
+        :ui="{ ripple: { color: 'white' } }"
+        class="bg-blue-500 hover:bg-blue-600 text-white"
+        @click="sqrt"
+        :loading="isLoading"
       >
-      </UInput>
-    </form>
+        Calculate Using API
+      </UButton>
+
+      <UButton
+        icon="i-heroicons-table-cells-solid"
+        :ui="{ ripple: { color: 'white' } }"
+        class="bg-blue-500 hover:bg-blue-600 text-white ml-5"
+        @click="sqrt_sql"
+        :loading="isLoading"
+      >
+        Calculate Using PL/SQL
+      </UButton>
+    </div>
     <UCard class="mt-5">
       <div class="flex flex-col items-center">
         <div class="text-2xl font-bold mb-2">Answer</div>
