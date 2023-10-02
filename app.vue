@@ -28,7 +28,7 @@ fetchHistory()
 
 const sqrt = () => {
   isLoading.value = true
-  $fetch(`https://https://akar-kuadrat-api.fly.dev/api/sqrt?number=${number.value}`)
+  $fetch(`https://akar-kuadrat-api.fly.dev/api/sqrt?number=${number.value}`)
     .then((res) => {
       answer.value = res.data.sqrt
       time.value = res.data.time
@@ -48,7 +48,7 @@ const sqrt = () => {
 const sqrt_sql = () => {
   isLoading.value = true
   $fetch(
-    `https://https://akar-kuadrat-api.fly.dev/api/sql/sqrt?number=${number.value}`
+    `https://akar-kuadrat-api.fly.dev/api/sql/sqrt?number=${number.value}`
   )
     .then((res) => {
       answer.value = res.data.sqrt
