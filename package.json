@@ -19,5 +19,8 @@
     "@nuxt/ui": "^2.8.1",
     "@pinia/nuxt": "^0.5.1",
     "pinia": "^2.1.7"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
